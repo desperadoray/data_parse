@@ -1,5 +1,6 @@
 import csv
 import sys
+import re
 
 maxInt = sys.maxsize
 decrement = True
@@ -18,4 +19,9 @@ while decrement:
 with open(r'D:\Coding\hausway\database\bca\2017Feb\Monthly Sales Report.csv', newline = '') as csvfile:
 	spamreader = csv.reader(csvfile, delimiter = '\t')
 	for row in spamreader:
-		print(row[7])
+		r = re.search(r'^UNIT\s([0-9]+)\s([0-9]+)', row[7])
+		if(bool(r)):
+			unitNumber = r.group(1)
+			streetNumber = r.group(2)
+		if(row[18] == "Width * Depth"):
+			size = float(row[19])*float(row[20])
