@@ -20,10 +20,13 @@ while decrement:
 ipath = input("Please enter input path:")
 opath = input("Please enter output path:")
 
+newrows.append(['PID', 'unit number', 'street number', 'street name', 'land size', 'land unit', 'land value', 'improve value', 'total actual value'])
+
 with open(ipath, 'r', encoding = 'utf-16') as csvfile:
 	spamreader = csv.reader(csvfile, delimiter = '\t')
 	for row in spamreader:
-		newrow = row
+		newrow = []
+		newrow.append(row[10])
 		r = re.search(r'^UNIT\s([0-9]+)\s([0-9]+)', row[7])
 		if(bool(r)):
 			unitNumber = r.group(1)
@@ -34,15 +37,18 @@ with open(ipath, 'r', encoding = 'utf-16') as csvfile:
 		else:
 			newrow.append('')
 			newrow.append('')
+		newrow.append(row[8])
 		if(row[18] == "Width * Depth"):
-			size = float(row[19])*float(row[20])
-			newrow[19] = size
-			newrow[20] = ''
-			newrow[18] = 'Square Feet'
-		if(row[18] == "Square Feet"):
-			row[20] = ''
+			newrow.append(row[19])
+			newrow.append('Squarefeet')
+		else:
+			newrow.append(row[19])
+			newrow.append(row[18])
 		# newrow.append()
-		newrows.append(row)
+		newrow.append(row[15])
+		newrow.append(row[16])
+		newrow.append(row[17])
+		newrows.append(newrow)
 
 
 with open(opath, 'a', newline = '') as f:
